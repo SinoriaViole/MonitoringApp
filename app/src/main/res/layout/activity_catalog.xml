@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CatalogActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tipTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cara Mengelola Waktu Belajar Anak"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/tipDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mengatur waktu belajar anak adalah tantangan yang sering dihadapi orang tua, tetapi dengan pendekatan yang tepat..."
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- CardView 2 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/cardView1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/gayaBelajarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Panduan Mengenali Gaya Belajar Anak"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/gayaBelajarDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Setiap anak memiliki gaya belajar berbeda, yaitu visual, auditori, atau kinestetik."
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- CardView 3 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/cardView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/fokusbelajarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tips Menangani anak yang kesulitan fokus belajar"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/fokusbelajarDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Anak yang kesulitan fokus belajar memerlukan pendekatan khusus agar dapat lebih konsentrasi."
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- CardView 4 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/cardView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/bantubelajarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alat bantu belajar yang bisa digunakan."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/bantubelajarDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pahami apakah anak memiliki gaya belajar visual, auditori, atau kinestetik, dan sesuaikan metode belajar dengan kebutuhan mereka."
+                android:textSize="14sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".HelpActivity">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- ScrollView for help content -->
+    <ScrollView
+        android:id="@+id/helpScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <!-- Section 1: Introduction -->
+
+            <TextView
+                android:id="@+id/helpIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Panduan Penggunaan Aplikasi"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/helpDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aplikasi ini dirancang untuk membantu orang tua dalam memantau aktivitas belajar anak secara efektif. Berikut adalah langkah-langkah untuk menggunakan aplikasi ini."
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Section 2: Step-by-Step Guide -->
+            <TextView
+                android:id="@+id/helpStepsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Langkah-langkah Penggunaan"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/helpStep1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="8dp"
+                android:text="1. Buka aplikasi dan cari menu 'Monitoring'. Klik menu tersebut untuk memulai proses pemantauan."
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/helpStep2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Untuk memulai proses pemantauan, silakan klik tombol 'Mulai' yang tersedia."
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/helpStep3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. Untuk menghentikan proses, silakan tekan tombol 'Berhenti'. Setelah itu, Anda akan diminta untuk mengisi formulir. Setelah formulir terisi, klik tombol 'Reward' untuk melihat hadiah yang Anda dapatkan. Jangan lupa simpan hasil hadiah Anda dengan menekan tombol 'Simpan'."
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Section 3: Contact Information -->
+            <TextView
+                android:id="@+id/helpContactTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bantuan Lebih Lanjut"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/helpContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Aplikasi pemantauan ini sangat sensitif terhadap perubahan cahaya. Tingkat kecerahan lingkungan dapat memengaruhi akurasi deteksi gerakan. Dengan demikian, aplikasi ini mampu memberikan hasil yang lebih akurat dalam berbagai kondisi pencahayaan, baik dalam ruangan maupun luar ruangan."
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
