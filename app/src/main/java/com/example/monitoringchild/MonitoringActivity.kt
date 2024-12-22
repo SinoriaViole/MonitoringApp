@@ -22,6 +22,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -146,6 +148,7 @@ class MonitoringActivity : AppCompatActivity() {
         isMonitoring = false
         cameraExecutor.shutdown()
         timer?.cancel()
+        val finalPoints = points
         findViewById<TextView>(R.id.tv_timer).text = "00:00:00"
         btnStopMonitoring.isEnabled = false
         cameraProvider?.unbindAll()
@@ -158,24 +161,136 @@ class MonitoringActivity : AppCompatActivity() {
     private fun showResultDialog() {
         val dialogBuilder = android.app.AlertDialog.Builder(this)
         dialogBuilder.setTitle("Hasil Monitoring")
-        dialogBuilder.setMessage("Total Poin: $points")
 
+        // Tentukan reward berdasarkan rentang poin yang diminta
+        val reward = when (points) {
+            in 10..30 -> "Selamat anda mendapatkan permen"
+            in 31..50 -> "Selamat anda mendapatkan kue"
+            in 51..70 -> "Selamat anda mendapatkan mainan kecil"
+            in 71..90 -> "Selamat anda mendapatkan buku cerita"
+            in 91..100 -> "Selamat anda mendapatkan Jam main lebih banyak"
+            else -> "Tidak Ada Reward"
+        }
+
+        // Buat layout untuk tampilan pesan dalam dialog
+        val layout = android.widget.LinearLayout(this)
+        layout.orientation = android.widget.LinearLayout.VERTICAL
+        layout.setPadding(50, 30, 50, 30)  // Menambahkan padding untuk estetika
+
+        // Buat TextView untuk menampilkan total poin
+        val pointsText = android.widget.TextView(this)
+        pointsText.text = "Total Poin: $points"
+        pointsText.textSize = 16f
+        pointsText.setTextColor(android.graphics.Color.BLACK)
+        pointsText.setPadding(0, 0, 0, 20)  // Memberikan jarak antar elemen
+        layout.addView(pointsText)
+
+        // Buat TextView untuk menampilkan hadiah
+        val rewardText = android.widget.TextView(this)
+        rewardText.text = "Hadiah: $reward"
+        rewardText.textSize = 16f
+        rewardText.setTextColor(android.graphics.Color.BLACK)
+        layout.addView(rewardText)
+
+        // Set layout yang sudah diatur ke dalam dialog
+        dialogBuilder.setView(layout)
+
+        // Tombol Reset
         dialogBuilder.setPositiveButton("Reset") { _, _ ->
             Toast.makeText(this, "Data direset", Toast.LENGTH_SHORT).show()
             resetMonitoring()
         }
 
-        dialogBuilder.setNegativeButton("Berikutnya") { _, _ ->
-            val intent = Intent(this, RewardActivity::class.java)
-            startActivity(intent)
-            finish()
+        // Tombol Simpan
+        dialogBuilder.setNegativeButton("Simpan") { _, _ ->
+            showNameInputDialog(points, reward)
         }
 
+        // Tampilkan dialog
         dialogBuilder.create().show()
+        resetMonitoring()
+    }
+
+
+    private fun showNameInputDialog(points: Int, reward: String) {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Masukkan Nama")
+
+        // Buat LinearLayout untuk tata letak input
+        val layout = android.widget.LinearLayout(this)
+        layout.orientation = android.widget.LinearLayout.VERTICAL
+        layout.setPadding(50, 30, 50, 30)  // Menambahkan padding untuk estetika
+
+        // Buat EditText untuk input nama
+        val input = android.widget.EditText(this)
+        input.hint = "Masukkan nama anda"
+        input.setTextColor(android.graphics.Color.BLACK)  // Set warna teks
+        input.setHintTextColor(android.graphics.Color.GRAY)  // Set warna hint
+        input.setBackgroundResource(android.R.drawable.edit_text)  // Menambahkan background agar lebih menarik
+
+        // Sesuaikan lebar input
+        val layoutParams = android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        input.layoutParams = layoutParams
+
+        // Menambahkan input ke dalam layout
+        layout.addView(input)
+
+        // Set layout dialog
+        builder.setView(layout)
+
+        // Tombol Simpan
+        builder.setPositiveButton("Simpan") { _, _ ->
+            val name = input.text.toString()
+            if (name.isNotEmpty()) {
+                saveRewardToHistory(name, points, reward)
+            } else {
+                Toast.makeText(this, "Nama tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                showNameInputDialog(points, reward) // Tampilkan dialog lagi jika nama kosong
+            }
+        }
+
+        // Tombol Batal
+        builder.setNegativeButton("Batal") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        // Tampilkan dialog
+        builder.show()
+        resetMonitoring()
+    }
+
+
+    private fun saveRewardToHistory(name: String, points: Int, reward: String) {
+        val sharedPreferences = getSharedPreferences("RewardHistory", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        // Ambil data lama
+        val currentData = sharedPreferences.getString("history", "[]") ?: "[]"
+        val historyList = try {
+            JSONArray(currentData)
+        } catch (e: Exception) {
+            JSONArray() // Jika parsing gagal
+        }
+
+        // Tambahkan data baru
+        val newEntry = JSONObject().apply {
+            put("name", name)
+            put("points", points)
+            put("reward", reward)
+        }
+        historyList.put(newEntry)
+
+        // Simpan kembali ke SharedPreferences
+        editor.putString("history", historyList.toString()).apply()
+
+        Toast.makeText(this, "Data berhasil disimpan!", Toast.LENGTH_SHORT).show()
     }
 
     private fun resetMonitoring() {
-        points = 50
+//        points = 50
         tvMotionStatus.text = "Normal"
         tvNoiseLevel.text = "Normal"
         tvMotionStatus.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark))
@@ -365,6 +480,8 @@ class MonitoringActivity : AppCompatActivity() {
     }
 
     private fun updateNoiseUI(volume: Double) {
+        if (!isMonitoring) return
+
         if (volume > AUDIO_THRESHOLD) {
             points = (points - 5).coerceIn(0, 100)
             tvNoiseLevel.text = "Bising"

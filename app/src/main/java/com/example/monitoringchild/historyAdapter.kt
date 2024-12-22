@@ -8,9 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class HistoryAdapter(
-    val historyList: MutableList<HistoryItem>,
-    private val onDelete: (HistoryItem) -> Unit
+    val historyList: MutableList<History>,
+    private val onDeleteClick: (History) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+
+    inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvName: TextView = itemView.findViewById(R.id.name)
+        val tvPoint: TextView = itemView.findViewById(R.id.points)
+        val tvReward: TextView = itemView.findViewById(R.id.reward)
+        val btnDelete: ImageButton = itemView.findViewById(R.id.delete_button)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
@@ -18,25 +25,22 @@ class HistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        val historyItem = historyList[position]
-        holder.nameTextView.text = "Nama: ${historyItem.name}"
-        holder.timeTextView.text = "Waktu: ${historyItem.time}"
-        holder.rewardTextView.text = "Reward: ${historyItem.reward}"
+        val history = historyList.getOrNull(position)  // Mengambil item dengan pengamanan posisi
+        if (history != null) {
+            holder.tvName.text = "Nama: ${history.name}"
+            holder.tvPoint.text = "Point: ${history.points}"
+            holder.tvReward.text = "Reward: ${history.reward}"
 
-        // Aksi tombol delete
-        holder.deleteButton.setOnClickListener {
-            onDelete(historyItem) // Callback untuk menghapus item
+            holder.btnDelete.setOnClickListener {
+                // Pastikan item masih ada di list sebelum dihapus
+                onDeleteClick(history)  // Fungsi untuk menghapus item
+                if (historyList.isNotEmpty() && position < historyList.size) {
+                    historyList.removeAt(position)  // Menghapus item dari list
+                    notifyItemRemoved(position)     // Memperbarui RecyclerView
+                }
+            }
         }
     }
 
-    override fun getItemCount(): Int {
-        return historyList.size
-    }
-
-    class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val nameTextView: TextView = view.findViewById(R.id.name)
-        val timeTextView: TextView = view.findViewById(R.id.time)
-        val rewardTextView: TextView = view.findViewById(R.id.reward)
-        val deleteButton: ImageButton = view.findViewById(R.id.delete_button) // Tombol delete
-    }
+    override fun getItemCount(): Int = historyList.size
 }

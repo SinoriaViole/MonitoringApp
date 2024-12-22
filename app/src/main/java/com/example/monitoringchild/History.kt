@@ -1,7 +1,7 @@
 package com.example.monitoringchild
 
-data class HistoryItem(
+data class History(
     val name: String,
-    val time: String,
+    val points: String,
     val reward: String
 )

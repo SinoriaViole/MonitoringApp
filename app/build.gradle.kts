@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.camerax.lifecycle)
     implementation(libs.camerax.camera2)
     implementation(libs.org.json)
+    implementation(libs.androidx.room.common)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

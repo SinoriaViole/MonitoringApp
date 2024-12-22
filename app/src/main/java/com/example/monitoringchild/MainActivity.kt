@@ -51,5 +51,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val personCard: CardView = findViewById(R.id.pembuatCard)
+        personCard.setOnClickListener{
+            val intent = Intent(this, PersonActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

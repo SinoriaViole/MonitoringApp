@@ -20,6 +20,9 @@
         android:theme="@style/Theme.Monitoringchild"
         tools:targetApi="31">
         <activity
+            android:name=".PersonActivity"
+            android:exported="false" />
+        <activity
             android:name=".RewardActivity"
             android:exported="false" />
         <activity

@@ -33,10 +33,10 @@
                 android:layout_marginBottom="4dp" />
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Waktu: -"
+                android:text="Point: -"
                 android:textSize="14sp"
                 android:textColor="#333333"
                 android:layout_marginBottom="4dp" />

@@ -13,6 +13,7 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var historyAdapter: HistoryAdapter
     private lateinit var sharedPreferences: android.content.SharedPreferences
+    private val historyList = mutableListOf<History>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,25 +39,24 @@ class HistoryActivity : AppCompatActivity() {
         recyclerView.adapter = historyAdapter
     }
 
-    // Fungsi untuk memparsing data JSON menjadi list of history
-    private fun parseHistoryData(jsonString: String): List<HistoryItem> {
-        val resultList = mutableListOf<HistoryItem>()
+    // Fungsi untuk memparsing data JSON menjadi list of History
+    private fun parseHistoryData(jsonString: String): List<History> {
+        val resultList = mutableListOf<History>()
         val jsonArray = JSONArray(jsonString)
 
         // Parsing setiap elemen JSON
         for (i in 0 until jsonArray.length()) {
             val entry = jsonArray.getJSONObject(i)
             val name = entry.getString("name")
-            val time = entry.getString("time")
+            val points = entry.getString("points")
             val reward = entry.getString("reward")
-            resultList.add(HistoryItem(name, time, reward))
+            resultList.add(History(name, points, reward))
         }
 
         return resultList
     }
 
-    // Fungsi untuk menghapus item dari SharedPreferences
-    private fun deleteHistoryItem(item: HistoryItem) {
+    private fun deleteHistoryItem(item: History) {
         val historyData = sharedPreferences.getString("history", "[]") ?: "[]"
         val jsonArray = JSONArray(historyData)
         val newJsonArray = JSONArray()
@@ -65,20 +65,23 @@ class HistoryActivity : AppCompatActivity() {
         for (i in 0 until jsonArray.length()) {
             val entry = jsonArray.getJSONObject(i)
             if (entry.getString("name") != item.name ||
-                entry.getString("time") != item.time ||
+                entry.getString("points") != item.points ||
                 entry.getString("reward") != item.reward
             ) {
                 newJsonArray.put(entry)
             }
         }
 
-        // Simpan kembali data yang diperbarui ke SharedPreferences
+        // Simpan data baru ke SharedPreferences
         val editor = sharedPreferences.edit()
         editor.putString("history", newJsonArray.toString())
         editor.apply()
 
-        // Perbarui data pada adapter
-        (historyAdapter.historyList as MutableList).remove(item)
-        historyAdapter.notifyDataSetChanged()
+        // Perbarui daftar dan adapter
+        historyList.clear() // Kosongkan daftar terlebih dahulu
+        historyList.addAll(parseHistoryData(newJsonArray.toString())) // Tambahkan data terbaru
+        historyAdapter.notifyDataSetChanged() // Beri tahu adapter untuk memperbarui tampilan
     }
+
+
 }
